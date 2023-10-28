@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Website</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <h1>Expecto Patronum</h1>
+    <h2>信安法 2112514 辛浩然 </h2>
+
+    <audio id="audioPlayer" controls>
+        <source src="music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <form id="myForm" action="new.html" method="POST">
+        <input type="text" name="userInput" id="userInput" placeholder="Enter data">
+        <input type="submit" value="Submit" id="submitBtn">
+    </form>
+
+    <button id="setCookieButton">Set Cookie</button>
+
+    <script>
+        function setCookie(name, minutes) {
+            var expires = "";
+            if (minutes) {
+                var date = new Date();
+                date.setTime(date.getTime() + (minutes * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name;
+        }
+
+        document.getElementById('audioPlayer').addEventListener('click', function () {
+            var audioPlayer = document.getElementById('audioPlayer');
+            audioPlayer.play();
+        });
+
+        document.getElementById('setCookieButton').addEventListener('click', function () {
+            setCookie('CookieValue', 2); 
+        });
+    </script>
+</body>
+
+</html>

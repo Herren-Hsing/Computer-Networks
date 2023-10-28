@@ -1,0 +1,71 @@
+body {
+    background-image: url('intro.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    position: absolute;
+    top: 20px;
+    left: 340px;
+}
+
+h2 {
+    position: absolute;
+    top: 80px;
+    left: 340px;
+}
+
+#audioPlayer {
+    position: absolute;
+    top: 170px;
+    left: 330px;
+}
+
+#myForm {
+    position: absolute;
+    top: 240px;
+    left: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#userInput {
+    width: 280px;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#submitBtn {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#setCookieButton {
+    position: absolute;
+    top: 460px;
+    left: 200px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 10px;
+}
