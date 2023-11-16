@@ -1,0 +1,1 @@
+Achieving reliable data transmission with connection-oriented using UDP socket, featuring functionalities such as connection establishment, error detection, receiving acknowledgments, timeout retransmission, etc. Flow control is implemented using a stop-and-wait mechanism.
