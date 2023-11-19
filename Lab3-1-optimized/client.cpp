@@ -120,10 +120,12 @@ DWORD WINAPI reTransmitThread(LPVOID lpParam)
 
 	while (true)
 	{
-		lock_guard<mutex> lock(ackMutex);
-		if (ackReceived)
 		{
-			break;
+			std::lock_guard<std::mutex> lock(ackMutex); // Lock ackReceived mutex
+			if (ackReceived)
+			{
+				break;
+			}
 		}
 
 		reTransmit(msg);
@@ -265,7 +267,7 @@ void sendFile(char *fileContent, int &rounds)
 				// 判断标志位和校验和，需要判断是正确的ACK，正确的ACK的acknum就是现在的initialseqnumber
 				if (isValidACK(recvMsg, segSize))
 				{
-					lock_guard<mutex> coutLock(coutMutex); 
+					lock_guard<mutex> coutLock(coutMutex);
 					recvMsg->printMsg();
 					cout << "Successful send file segment. Already send ";
 					cout << fixed << setprecision(2) << static_cast<double>(fileSize - remainingSize + segSize) / fileSize * 100 << "%." << endl;
@@ -318,7 +320,7 @@ void sendFileInfo(char *fileContent)
 			// 判断标志位和校验和，判断收到的ACK是否是想要的ACK
 			if (isValidACK(recvMsg, lenInfo))
 			{
-				lock_guard<mutex> coutLock(coutMutex); 
+				lock_guard<mutex> coutLock(coutMutex);
 				recvMsg->printMsg();
 				cout << "Successful send file information" << endl;
 				ackReceived = true;
@@ -367,7 +369,7 @@ void closeConnect()
 			// 判断标志位和校验和
 			if (recvMsg->header.getFlags() == ACK && recvMsg->isValid())
 			{
-				lock_guard<mutex> coutLock(coutMutex); 
+				lock_guard<mutex> coutLock(coutMutex);
 				recvMsg->printMsg();
 				cout << "Successful second handwaving" << endl;
 				ackReceived = true;
