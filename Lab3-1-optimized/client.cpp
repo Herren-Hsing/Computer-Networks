@@ -160,7 +160,7 @@ void shakeHands()
 				lock_guard<mutex> coutLock(coutMutex);
 				initialAckNum = recvMsg->header.getSeqNum();
 				recvMsg->printMsg();
-				cout << "Successful second handshake" << endl;
+				cout << "Successful second handshake." << endl;
 				ackReceived = true;
 				break;
 			}
@@ -168,7 +168,7 @@ void shakeHands()
 	}
 
 	WaitForSingleObject(timeoutThread, INFINITE); // 等待超时线程结束
-
+	cout << "Successfully shake hands with server." << endl;
 	delete msg;
 	delete recvMsg;
 }
@@ -322,7 +322,7 @@ void sendFileInfo(char *fileContent)
 			{
 				lock_guard<mutex> coutLock(coutMutex);
 				recvMsg->printMsg();
-				cout << "Successful send file information" << endl;
+				cout << "Successful send file information." << endl;
 				ackReceived = true;
 				break;
 			}
@@ -339,6 +339,7 @@ void sendFileInfo(char *fileContent)
 	clock_t fileStart = clock();
 	sendFile(fileContent, rounds); // 传输文件
 	clock_t fileEnd = clock();
+	cout << "Successfully send file " << fileName << "." << endl;
 	cout << "Transmit rounds: " << rounds << endl;
 	cout << "Total time: " << (fileEnd - fileStart) / CLOCKS_PER_SEC << " s" << endl;
 	cout << "Throughput: " << ((float)(fileSize + rounds * sizeof(Header))) / ((fileEnd - fileStart) / CLOCKS_PER_SEC) << " byte/s" << endl;
@@ -371,7 +372,7 @@ void closeConnect()
 			{
 				lock_guard<mutex> coutLock(coutMutex);
 				recvMsg->printMsg();
-				cout << "Successful second handwaving" << endl;
+				cout << "Successful second handwaving." << endl;
 				ackReceived = true;
 				break;
 			}

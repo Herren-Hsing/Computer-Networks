@@ -81,7 +81,7 @@ void shakeHands()
 			{
 				// 设置 acknumber，消耗一个序列号，ack是发来的seq加1
 				initialAckNum = recvMsg->header.getSeqNum() + 1;
-				cout << "Successful first handshake" << endl;
+				cout << "Successful first handshake." << endl;
 				break;
 			}
 		}
@@ -189,7 +189,7 @@ bool recvInfo()
 				{
 					recvMsg->printMsg(false);
 					initialAckNum++; // 第一次挥手消耗序列号
-					cout << "Successful first handwaving" << endl;
+					cout << "Successful first handwaving." << endl;
 					return false;
 				}
 				if (recvMsg->header.getLength())
