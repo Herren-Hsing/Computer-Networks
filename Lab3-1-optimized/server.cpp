@@ -2,8 +2,9 @@
 #include <fstream>
 #include <regex>
 #include "msg.h"
+#include "router.h"
 
-#define CLIENT_PORT htons(8002)
+#define CLIENT_PORT htons(8001)
 #define CLIENT_IP_ADDRESS "127.0.0.1"
 #define SERVER_PORT htons(8000)
 #define SERVER_IP_ADDRESS "127.0.0.1"
@@ -38,10 +39,7 @@ void sendflags(unsigned short flag, int seqnum, int acknum)
 	msg->printMsg(true);
 	sendSize = sizeof(Header);
 	memcpy(sendBuf, msg, sendSize);
-	if (sendto(serverSock, sendBuf, sendSize, 0, (SOCKADDR *)&clientAddr, sizeof(clientAddr)) == SOCKET_ERROR)
-	{
-		error("Send");
-	}
+	sendWithRegularLoss(serverSock, sendBuf, sendSize, 0, (SOCKADDR *)&clientAddr, sizeof(clientAddr));
 	delete msg;
 }
 
@@ -58,10 +56,8 @@ void reTransmit(unsigned short flags, int seqnum, int acknum)
 	sendSize = sizeof(Header) + msg->header.getLength();
 	memcpy(sendBuf, msg, sendSize);
 	delete msg;
-	if (sendto(serverSock, sendBuf, sendSize, 0, (SOCKADDR *)&clientAddr, sizeof(clientAddr)) == SOCKET_ERROR)
-	{
-		error("Send");
-	}
+	sendWithRegularLoss(serverSock, sendBuf, sendSize, 0, (SOCKADDR *)&clientAddr, sizeof(clientAddr));
+
 }
 
 void shakeHands()

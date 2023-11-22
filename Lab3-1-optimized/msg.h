@@ -7,10 +7,10 @@
 #include <cstdlib>
 using namespace std;
 
-const double time_out = 0.1;
+const double time_out = 0.5;
 #define MAX_RETANSMIT 10
-#define MAX_BUFFER_SIZE 6000
-#define MSS 5120
+#define MAX_BUFFER_SIZE 11000
+#define MSS 10240
 #define SYN 4
 #define ACK 2
 #define FIN 1
