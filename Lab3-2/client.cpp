@@ -239,19 +239,22 @@ DWORD WINAPI recvThreadFunction(LPVOID lpParam)
 			if (isValidACK(recvMsg))
 			{
 				mtx.lock();
-				leftWin = recvMsg->header.getAckNum() - beforeSendNum;
-				logMsg(recvMsg);
-				logger.log("[Window][AFTER RECV] LEFT: %d, RIGHT: %d", leftWin + beforeSendNum, rightWin + beforeSendNum);
+				if (recvMsg->header.getAckNum() <= rightWin + beforeSendNum)
+				{
+					leftWin = recvMsg->header.getAckNum() - beforeSendNum;
+					logMsg(recvMsg);
+					logger.log("[Window][AFTER RECV] LEFT: %d, RIGHT: %d", leftWin + beforeSendNum, rightWin + beforeSendNum);
 
-				if (leftWin == rightWin)
-				{
-					// 窗口空，停止计时器
-					timer.stop();
-				}
-				else
-				{
-					// 否则，启动计时器
-					timer.setStart(times[leftWin]);
+					if (leftWin == rightWin)
+					{
+						// 窗口空，停止计时器
+						timer.stop();
+					}
+					else
+					{
+						// 否则，启动计时器
+						timer.setStart(times[leftWin]);
+					}
 				}
 				mtx.unlock();
 			}
@@ -422,7 +425,8 @@ void closeConnect()
 int main()
 {
 	signal(SIGINT, signalHandler);
-	int a, b;
+	double a;
+	int b;
 	logger.log("Please input the window size.");
 	cin >> MAXWIN;
 	logger.log("Please input miss rate.");

@@ -5,14 +5,19 @@
 #include <future>
 #include <fstream>
 #include <iomanip>
+#include <random>
 using namespace std;
 
-bool setMiss = true;  // 是否开启丢包
-bool setDelay = true; // 是否开启延迟
-int missRate = 20;    // 每20个包丢1个，丢包率5%
-int delay = 5;        // 延时 5 毫秒
+bool setMiss = true;    // 是否开启丢包
+bool setDelay = true;   // 是否开启延迟
+double missRate = 0.05; // 丢包率5%
+int delay = 5;          // 延时 5 毫秒
 
-void setValue(int a, int b)
+random_device rd;
+mt19937 gen(rd());
+uniform_real_distribution<> dis(0.0, 1.0); // 生成范围在 [0.0, 1.0) 之间的随机数
+
+void setValue(double a, int b)
 {
     if (a == 0)
     {
@@ -48,7 +53,7 @@ bool sendWithRegularLoss(SOCKET sock, const char *buffer, size_t length, int fla
     static int counter = 0;
     counter++;
     // 丢包
-    if (setMiss && (counter % missRate == 0))
+    if (setMiss && (dis(gen) < missRate))
     {
         logToFile("Simulating packet loss. Packet not sent.", counter); // 日志输出
         return true;
