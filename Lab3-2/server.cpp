@@ -231,6 +231,13 @@ void closeConnect()
 int main()
 {
 	signal(SIGINT, signalHandler);
+	double a;
+	int b;
+	logger.log("Please input miss rate.");
+	cin >> a;
+	logger.log("Please input delay time.");
+	cin >> b;
+	setValue(a, b);
 	prepareSocket(false);
 
 	initialSeqNum = 0;
