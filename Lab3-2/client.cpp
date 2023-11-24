@@ -273,7 +273,7 @@ DWORD WINAPI reTransmitFileThreadFunction(LPVOID lpParam)
 		if (timer.isTimeout())
 		{
 			mtx.lock();
-			timer.setStart(clock());
+			timer.stop();
 			logger.log("[RETRANSMIT] FROM %d TO %d", leftWin + beforeSendNum, rightWin + beforeSendNum);
 			rightWin = leftWin;
 			mtx.unlock();

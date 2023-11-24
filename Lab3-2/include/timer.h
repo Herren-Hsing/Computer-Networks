@@ -47,7 +47,12 @@ public:
 		isTiming = true;
 	}
 
-	void stop() { isTiming = false; }
+	void stop()
+	{
+		isTiming = false;
+		lock_guard<mutex> lock(mtx);
+		timeout = false;
+	}
 	void stopTimer() { stopTimerThread = true; }
 	bool isTimeout() { return timeout; }
 };
