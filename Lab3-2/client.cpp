@@ -292,7 +292,7 @@ void sendFile()
 	while (1)
 	{
 		// 窗口未满，未发送完，可以发送
-		if (rightWin - leftWin < MAXWIN & rightWin < rounds)
+		if (rightWin - leftWin < MAXWIN && rightWin < rounds)
 		{
 			mtx.lock();
 			sendFilePackage(rightWin);
