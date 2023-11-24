@@ -10,4 +10,4 @@ client: client.cpp
 	$(CC) client.cpp -o client $(CFLAGS)
 
 clean:
-	del server.exe client.exe
+	del server.exe client.exe routerLog.txt

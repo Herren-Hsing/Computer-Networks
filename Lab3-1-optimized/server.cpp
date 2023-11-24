@@ -57,7 +57,6 @@ void reTransmit(unsigned short flags, int seqnum, int acknum)
 	memcpy(sendBuf, msg, sendSize);
 	delete msg;
 	sendWithRegularLoss(serverSock, sendBuf, sendSize, 0, (SOCKADDR *)&clientAddr, sizeof(clientAddr));
-
 }
 
 void shakeHands()
@@ -207,6 +206,10 @@ bool recvInfo()
 			// 收到了之前发过来的，这可能是因为延时，也可能是因为之前的ACK丢失，回个ACK
 			if (recvMsg->isValid() && recvMsg->header.getSeqNum() < initialAckNum)
 			{
+				if (recvMsg->header.getFlags() == 0 && recvMsg->header.getLength())
+				{
+					reTransmit(ACK, initialSeqNum, recvMsg->header.getSeqNum() + recvMsg->header.getLength());
+				}
 				reTransmit(ACK, initialSeqNum, recvMsg->header.getSeqNum() + 1);
 			}
 		}
@@ -225,6 +228,13 @@ void closeConnect()
 
 int main()
 {
+	double a;
+	int b;
+	cout << "Please input miss rate." << endl;
+	cin >> a;
+	cout << "Please input delay time." << endl;
+	cin >> b;
+	setValue(a, b);
 	prepareSocket();
 
 	initialSeqNum = getRandom();

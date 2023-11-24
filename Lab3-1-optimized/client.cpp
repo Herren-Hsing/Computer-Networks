@@ -80,7 +80,7 @@ void sendFlag(Message *msg, unsigned short flags, int seqnum, int acknum)
 	msg->printMsg(true);
 	sendSize = sizeof(Header);
 	memcpy(sendBuf, msg, sendSize);
-	sendWithRegularLoss(clientSock, sendBuf, sendSize, 0, (SOCKADDR *)&serverAddr, sizeof(serverAddr)) ;
+	sendWithRegularLoss(clientSock, sendBuf, sendSize, 0, (SOCKADDR *)&serverAddr, sizeof(serverAddr));
 }
 
 // 超时重传
@@ -98,7 +98,7 @@ void reTransmit(Message *msg)
 		SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 		msg->printMsg(true);
 
-		sendWithRegularLoss(clientSock, sendBuf, sendSize, 0, (SOCKADDR *)&serverAddr, sizeof(serverAddr)) ;
+		sendWithRegularLoss(clientSock, sendBuf, sendSize, 0, (SOCKADDR *)&serverAddr, sizeof(serverAddr));
 		start = clock();
 	}
 
@@ -239,7 +239,7 @@ void sendFile(char *fileContent, int &rounds)
 		fileMessage->setChecksum();
 		sendSize = sizeof(Header) + segSize;
 		memcpy(sendBuf, fileMessage, sendSize);
-		sendWithRegularLoss(clientSock, sendBuf, sendSize, 0, (SOCKADDR *)&serverAddr, sizeof(serverAddr)) ;
+		sendWithRegularLoss(clientSock, sendBuf, sendSize, 0, (SOCKADDR *)&serverAddr, sizeof(serverAddr));
 		start = clock();
 		reTransmitCount = 0;
 		fileMessage->printMsg(true);
@@ -292,8 +292,8 @@ void sendFileInfo(char *fileContent)
 	fileInfo->printMsg(true, true);
 	sendSize = sizeof(Header) + fileInfo->header.getLength();
 	memcpy(sendBuf, fileInfo, sendSize);
-	sendWithRegularLoss(clientSock, sendBuf, sendSize, 0, (SOCKADDR *)&serverAddr, sizeof(serverAddr)) ;
-	
+	sendWithRegularLoss(clientSock, sendBuf, sendSize, 0, (SOCKADDR *)&serverAddr, sizeof(serverAddr));
+
 	start = clock();
 	reTransmitCount = 0;
 	ackReceived = false;
@@ -375,6 +375,13 @@ void closeConnect()
 
 int main()
 {
+	double a;
+	int b;
+	cout << "Please input miss rate." << endl;
+	cin >> a;
+	cout << "Please input delay time." << endl;
+	cin >> b;
+	setValue(a, b);
 	prepareSocket();
 	initialSeqNum = getRandom();
 
