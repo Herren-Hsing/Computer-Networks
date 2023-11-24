@@ -13,7 +13,7 @@ int initialAckNum;
 int sendSize;
 string fileName;
 int fileSize;
-const double waitTime = 1;
+const double waitTime = 5;
 
 // 信号处理函数，处理键盘CTRL+C时日志线程的退出
 void signalHandler(int signum)
