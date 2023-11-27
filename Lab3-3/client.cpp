@@ -233,7 +233,6 @@ DWORD WINAPI recvThreadFunction(LPVOID lpParam)
 			recvMsg->reset();
 			memcpy(recvMsg, recvFileBuf, bytesRecv);
 			// 判断标志位 ACK 和校验和
-			logMsg(recvMsg);
 
 			if (isValidACK(recvMsg))
 			{
@@ -263,7 +262,6 @@ DWORD WINAPI recvThreadFunction(LPVOID lpParam)
 	return 0;
 }
 
-// 当超时时，需要重传窗口内的所有包，这里直接将右边界拉回左边界
 DWORD WINAPI reTransmitFileThreadFunction(LPVOID lpParam)
 {
 	intptr_t pkg = reinterpret_cast<intptr_t>(lpParam);
@@ -272,7 +270,7 @@ DWORD WINAPI reTransmitFileThreadFunction(LPVOID lpParam)
 	{
 		if (static_cast<double>(clock() - start) / CLOCKS_PER_SEC >= timeOut)
 		{
-			logger.log("retransimit %d", pkg + beforeSendNum);
+			logger.log("retransmit %d", pkg + beforeSendNum);
 			sendFilePackage(pkg);
 			start = clock();
 		}
@@ -280,7 +278,7 @@ DWORD WINAPI reTransmitFileThreadFunction(LPVOID lpParam)
 	return 0;
 }
 
-// 发送文件，使用 GBN 协议
+// 发送文件
 void sendFile()
 {
 	rounds = fileSize / MSS + 1;

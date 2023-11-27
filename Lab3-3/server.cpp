@@ -154,7 +154,7 @@ void recvFile()
 						{
 							if (isRecv[i - beforeRecv])
 							{
-								logger.log("write %d Size %d", i - beforeRecv, fileBufSize[i - beforeRecv]);
+								logger.log("write %d Size %d", i, fileBufSize[i - beforeRecv]);
 								fileStream.write(fileBuf[i - beforeRecv], fileBufSize[i - beforeRecv]);
 								remainingSize -= fileBufSize[i - beforeRecv];
 							}
