@@ -236,24 +236,19 @@ DWORD WINAPI recvThreadFunction(LPVOID lpParam)
 
 			if (isValidACK(recvMsg))
 			{
-				mtx.lock();
-				if (recvMsg->header.getAckNum() <= rightWin + beforeSendNum)
+				isFinished[recvMsg->header.getAckNum() - beforeSendNum - 1] = true;
+				if (leftWin == recvMsg->header.getAckNum() - beforeSendNum - 1)
 				{
-					isFinished[recvMsg->header.getAckNum() - beforeSendNum - 1] = true;
-					if (leftWin == recvMsg->header.getAckNum() - beforeSendNum - 1)
+					for (leftWin; leftWin < rounds; leftWin++)
 					{
-						for (leftWin; leftWin < rounds; leftWin++)
+						if (!isFinished[leftWin])
 						{
-							if (!isFinished[leftWin])
-							{
-								break;
-							}
+							break;
 						}
 					}
-					logMsg(recvMsg);
-					logger.log("[Window][AFTER RECV] LEFT: %d, RIGHT: %d", leftWin + beforeSendNum, rightWin + beforeSendNum);
 				}
-				mtx.unlock();
+				logMsg(recvMsg);
+				logger.log("[Window][AFTER RECV] LEFT: %d, RIGHT: %d", leftWin + beforeSendNum, rightWin + beforeSendNum);
 			}
 		}
 	}
@@ -305,6 +300,7 @@ void sendFile()
 		{
 			break;
 		}
+		Sleep(1);
 	}
 	TerminateThread(recvThread, 0);
 	CloseHandle(recvThread);
